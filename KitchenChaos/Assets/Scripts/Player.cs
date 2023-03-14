@@ -7,18 +7,39 @@ public class Player : MonoBehaviour
     [SerializeField] GameInput gameInput;
     [SerializeField] private float moveSpeed = 6f;
     [SerializeField] private float rotationSpeed = 9f;
+    [SerializeField] private LayerMask countersLayerMask;
 
     private bool isWalking;
+    private Vector3 lastInteractDir;
     private void Update()
     {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
-        MovementPositionWithColision(inputVector);
+        HandleMovement();
+        HandleInteractions();
     }
 
-
-
-    private void MovementPositionWithColision(Vector2 inputVector)
+    private void HandleInteractions()
     {
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
+
+        if (moveDir != Vector3.zero)
+        {
+            lastInteractDir = moveDir;
+        }
+
+        float interactDistance = 2f;
+        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance, countersLayerMask))
+        {
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            {
+                //Has ClearCounter
+                clearCounter.Interact();
+            }
+        }
+    }
+    private void HandleMovement()
+    {
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
         float moveDistance = moveSpeed * Time.deltaTime;
@@ -30,7 +51,6 @@ public class Player : MonoBehaviour
 
         if (!canMove)
         {
-
             Vector3 moveDirX = new Vector3(moveDir.x, 0f, 0f).normalized;
             canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
             if (canMove)
@@ -45,10 +65,6 @@ public class Player : MonoBehaviour
                 if (canMove)
                 {
                     moveDir = moveDirZ;
-                }
-                else
-                {
-
                 }
             }
 
