@@ -35,9 +35,9 @@ public class Player : MonoBehaviour
 
     private void GameInput_OnInteractAction(object sender, System.EventArgs e)
     {
-        if (selectedCounter != null)
+        if (this.selectedCounter != null)
         {
-             Debug.Log("You are interact with a "+ selectedCounter.name);
+            this.selectedCounter.Interact();
         }
     }
     private void Update()
@@ -125,6 +125,7 @@ public class Player : MonoBehaviour
 
     private void SetSelectedCounter(ClearCounter selectedCounter)
     {
+        this.selectedCounter = selectedCounter;
         OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs
         {
             selectedCounter = selectedCounter
