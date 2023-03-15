@@ -5,12 +5,33 @@ using UnityEngine;
 
 public class SelectedCounterVisual : MonoBehaviour
 {
-    private void Start() {
+    [SerializeField] private ClearCounter clearCounter;
+    [SerializeField] private GameObject visualGameObjetct;
+
+    private void Start()
+    {
         Player.Instance.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
     }
 
     private void Player_OnSelectedCounterChanged(object sender, Player.OnSelectedCounterChangedEventArgs e)
     {
-       Debug.Log("You are interact with a object");
+        if (e.selectedCounter == clearCounter)
+        {
+            Show();
+        }
+        else
+        {
+            Hide();
+        }
+    }
+
+    private void Hide()
+    {
+        visualGameObjetct.SetActive(false);
+    }
+
+    private void Show()
+    {
+        visualGameObjetct.SetActive(true);
     }
 }

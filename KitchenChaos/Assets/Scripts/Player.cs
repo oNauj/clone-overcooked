@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     {
         if (selectedCounter != null)
         {
-
+             Debug.Log("You are interact with a "+ selectedCounter.name);
         }
     }
     private void Update()
@@ -76,8 +76,6 @@ public class Player : MonoBehaviour
         {
             SetSelectedCounter(null);
         }
-
-        Debug.Log(selectedCounter.name);
     }
     private void HandleMovement()
     {
