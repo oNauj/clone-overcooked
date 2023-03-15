@@ -5,13 +5,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; set;}
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
-
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
         public ClearCounter selectedCounter;
     }
-
 
 
     [SerializeField] GameInput gameInput;
@@ -23,7 +22,12 @@ public class Player : MonoBehaviour
     private Vector3 lastInteractDir;
 
     private ClearCounter selectedCounter;
+    private static Player instace;
 
+    private void Awake() {
+        if ( Instance != null) Debug.LogError("There is more then one player instance");
+        Instance = this;
+    }
     private void Start()
     {
         gameInput.OnInteractAction += GameInput_OnInteractAction;
@@ -33,7 +37,7 @@ public class Player : MonoBehaviour
     {
         if (selectedCounter != null)
         {
-            selectedCounter.Interact();
+
         }
     }
     private void Update()
@@ -60,13 +64,7 @@ public class Player : MonoBehaviour
                 //Has ClearCounter
                 if (clearCounter != selectedCounter)
                 {
-                   SetSelectedCounter(selectedCounter);
-
-
-                }
-                else
-                {
-                    SetSelectedCounter(null);
+                    SetSelectedCounter(clearCounter);
                 }
             }
             else
@@ -74,7 +72,12 @@ public class Player : MonoBehaviour
                 SetSelectedCounter(null);
             }
         }
+        else
+        {
+            SetSelectedCounter(null);
+        }
 
+        Debug.Log(selectedCounter.name);
     }
     private void HandleMovement()
     {
