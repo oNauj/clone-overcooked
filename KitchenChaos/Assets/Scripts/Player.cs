@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
         if (this.selectedCounter != null)
         {
             this.selectedCounter.Interact();
+            Debug.Log("Interagindo");
         }
     }
     private void Update()

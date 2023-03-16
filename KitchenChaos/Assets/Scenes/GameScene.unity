@@ -943,6 +943,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1146441864025850077, guid: 0d3c32480f4c9bf4ba53206ffcfce16b,
+        type: 3}
+      propertyPath: kitchenObjectsSO
+      value: 
+      objectReference: {fileID: 11400000, guid: d0f956a6ab5ccbc4f82446db737e9952,
+        type: 2}
     - target: {fileID: 1146441864025850078, guid: 0d3c32480f4c9bf4ba53206ffcfce16b,
         type: 3}
       propertyPath: m_RootOrder
