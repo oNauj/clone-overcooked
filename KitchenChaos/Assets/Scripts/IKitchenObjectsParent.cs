@@ -4,16 +4,16 @@ using UnityEngine;
 
 public interface IKitchenObjectsParent
 {
-    public Transform GetKitchenObjectFollowParent();
-
-    public void ClearKitchenObject();
-
 
     public void SetKitchenObject(KitchenObject kitchenObject);
 
     public KitchenObject GetKitchenObject();
 
     public bool HasAKitchenObject();
+
+    public Transform GetKitchenObjectFollowParent();
+
+    public void ClearKitchenObject();
 
 
 }
