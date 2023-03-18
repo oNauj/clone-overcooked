@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IKitchenObjectsParent
 {
-    public static Player Instance { get; set;}
+    public static Player Instance { get; set; }
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
@@ -17,9 +17,9 @@ public class Player : MonoBehaviour, IKitchenObjectsParent
     [SerializeField] private float moveSpeed = 6f;
     [SerializeField] private float rotationSpeed = 9f;
     [SerializeField] private LayerMask countersLayerMask;
-    
+
     [SerializeField] private Transform kitchenObjectHoldPoint;
-    
+
     private KitchenObject kitchenObject;
 
     private bool isWalking;
@@ -28,13 +28,15 @@ public class Player : MonoBehaviour, IKitchenObjectsParent
     private BaseCounter selectedCounter;
     private static Player instace;
 
-    private void Awake() {
-        if ( Instance != null) Debug.LogError("There is more then one player instance");
+    private void Awake()
+    {
+        if (Instance != null) Debug.LogError("There is more then one player instance");
         Instance = this;
     }
     private void Start()
     {
         gameInput.OnInteractAction += GameInput_OnInteractAction;
+        gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
     }
 
     private void GameInput_OnInteractAction(object sender, System.EventArgs e)
@@ -42,6 +44,13 @@ public class Player : MonoBehaviour, IKitchenObjectsParent
         if (this.selectedCounter != null)
         {
             this.selectedCounter.Interact(this);
+        }
+    }
+    private void GameInput_OnInteractAlternateAction(object sender, System.EventArgs e)
+    {
+        if (this.selectedCounter != null)
+        {
+            this.selectedCounter.InteractAlternate(this);
         }
     }
     private void Update()
@@ -96,7 +105,7 @@ public class Player : MonoBehaviour, IKitchenObjectsParent
         if (!canMove)
         {
             Vector3 moveDirX = new Vector3(moveDir.x, 0f, 0f).normalized;
-            canMove = moveDir.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+            canMove = moveDirX.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
             if (canMove)
             {
                 moveDir = moveDirX;
