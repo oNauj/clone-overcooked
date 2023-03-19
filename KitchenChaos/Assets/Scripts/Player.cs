@@ -99,7 +99,7 @@ public class Player : MonoBehaviour, IKitchenObjectsParent
         float playerRadius = .6f;
         float playerHeight = 2f;
 
-        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
+        bool canMove = moveDir != Vector3.zero && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
 
 
         if (!canMove)
@@ -125,10 +125,14 @@ public class Player : MonoBehaviour, IKitchenObjectsParent
         if (canMove)
         {
             transform.position += moveDir * moveDistance;
+
+
         }
 
         isWalking = moveDir != Vector3.zero;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotationSpeed);
+
+
     }
 
     public bool IsWalking()
